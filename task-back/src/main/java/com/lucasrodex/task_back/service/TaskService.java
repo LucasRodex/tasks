@@ -15,7 +15,7 @@ public class TaskService {
     @Autowired
     private TaskRepository repository;
 
-    
+
 
     public List<Task> findByStatus(TaskStatus status) {
         return repository.findByStatus(status);
