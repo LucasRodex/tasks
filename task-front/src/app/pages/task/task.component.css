@@ -1,16 +1,13 @@
 .task-card {
-  background-color: white;
+  background-color: rgb(247, 246, 244);
   border-radius: 5px;
   padding: 15px;
   margin-bottom: 10px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  border-left: 5px solid #ccc; /* Padrão */
+  border-left: 5px solid #ccc; 
 }
 
-/* Indicadores de Prioridade (Requisito 3.2) */
-.priority-high { border-left-color: #ff4d4d; }
-.priority-medium { border-left-color: #ffa500; }
-.priority-low { border-left-color: #2ecc71; }
+
 
 .status {
   font-size: 0.75rem;
@@ -18,4 +15,12 @@
   padding: 2px 8px;
   border-radius: 10px;
   color: #444;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.99rem;
+  font-weight: bold;
+  text-transform: uppercase;
 }

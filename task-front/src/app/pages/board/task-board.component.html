@@ -1,11 +1,5 @@
-<div style="background: #333; color: #0f0; padding: 10px;">
-  DEBUG DADOS: {{ tasks | json }}
-</div>
-
-<div class="header">...</div>
-
 <div class="header">
-  <h2>Meu Kanban</h2>
+  <img src="/logo.png" alt="Logo" class="logo">
   <button class="btn-new" (click)="showModal = true">+ Nova Tarefa</button>
 </div>
 
@@ -15,7 +9,7 @@
     <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
       <input formControlName="title" placeholder="Título (Obrigatório)">
       <textarea formControlName="description" placeholder="Descrição"></textarea>
-      
+       
       <select formControlName="priority">
         <option value="LOW">Baixa</option>
         <option value="MEDIUM">Média</option>
@@ -29,34 +23,54 @@
         <button type="submit" [disabled]="taskForm.invalid">Salvar</button>
       </div>
     </form>
-    
   </div>
-  
 </div> 
 
-<div class="board">
+<div class="board" cdkDropListGroup>
 
-  <div class="column">
+  <div class="column1"
+
+       cdkDropList
+       [cdkDropListData]="filterByStatus('TODO')"
+       (cdkDropListDropped)="drop($event, 'TODO')">
     <h3>A Fazer</h3>
+
     <app-task
       *ngFor="let task of filterByStatus('TODO')"
-      [task]="task">
+      [task]="task"
+      cdkDrag
+      [cdkDragData]="task"> <div *cdkDragPlaceholder class="custom-placeholder"></div>
     </app-task>
+    
   </div>
 
-  <div class="column">
-    <h3>Fazendo</h3>
+  <div class="column2"
+       cdkDropList
+       [cdkDropListData]="filterByStatus('DOING')"
+       (cdkDropListDropped)="drop($event, 'DOING')">
+    <h3>Em Progresso</h3>
+
     <app-task
       *ngFor="let task of filterByStatus('DOING')"
-      [task]="task">
+      [task]="task"
+      cdkDrag
+      [cdkDragData]="task">
+      <div *cdkDragPlaceholder class="custom-placeholder"></div>
     </app-task>
   </div>
 
-  <div class="column">
+  <div class="column3"
+       cdkDropList
+       [cdkDropListData]="filterByStatus('DONE')"
+       (cdkDropListDropped)="drop($event, 'DONE')">
     <h3>Concluído</h3>
+
     <app-task
       *ngFor="let task of filterByStatus('DONE')"
-      [task]="task">
+      [task]="task"
+      cdkDrag
+      [cdkDragData]="task">
+      <div *cdkDragPlaceholder class="custom-placeholder"></div>
     </app-task>
   </div>
 

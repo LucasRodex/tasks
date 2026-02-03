@@ -4,11 +4,12 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { TaskService } from '../../service/task.service';
 import { TaskComponent } from '../task/task.component';
 import { Task } from '../../model/task.model';
+import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-task-board',
   standalone: true,
-  imports: [CommonModule, TaskComponent, ReactiveFormsModule],
+  imports: [CommonModule, TaskComponent, ReactiveFormsModule, DragDropModule],
   templateUrl: './task-board.component.html',
   styleUrls: ['./task-board.component.css']
 })
@@ -50,4 +51,23 @@ export class TaskBoardComponent implements OnInit {
   filterByStatus(status: string): Task[] {
     return this.tasks.filter(task => task.status === status);
   }
+
+drop(event: CdkDragDrop<Task[]>, newStatus: string): void {
+  if (event.previousContainer === event.container) {
+    return;
+  }
+
+  const task = event.item.data as Task;
+  
+ 
+  task.status = newStatus as "TODO" | "DOING" | "DONE";
+
+  if (task.id) {
+      this.taskService.update(task.id, task).subscribe({
+         
+      });
+  }
+}
+
+
 }

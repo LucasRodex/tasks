@@ -1,5 +1,11 @@
 <div class="task-card">
   <h4>{{ task.title }}</h4>
   <p>{{ task.description }}</p>
-  <span class="status">{{ task.status }}</span>
+ <span class="badge" 
+      [style.background-color]="getPriorityColor(task.priority)">
+  
+  {{ labels[task.priority] }}
+
+</span>
+  <p>Data de Vencimento: {{ task.dueDate | date }}</p>
 </div>
