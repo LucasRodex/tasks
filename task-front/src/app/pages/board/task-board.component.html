@@ -1,0 +1,63 @@
+<div style="background: #333; color: #0f0; padding: 10px;">
+  DEBUG DADOS: {{ tasks | json }}
+</div>
+
+<div class="header">...</div>
+
+<div class="header">
+  <h2>Meu Kanban</h2>
+  <button class="btn-new" (click)="showModal = true">+ Nova Tarefa</button>
+</div>
+
+<div class="modal" *ngIf="showModal">
+  <div class="modal-content">
+    <h3>Nova Tarefa</h3>
+    <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
+      <input formControlName="title" placeholder="Título (Obrigatório)">
+      <textarea formControlName="description" placeholder="Descrição"></textarea>
+      
+      <select formControlName="priority">
+        <option value="LOW">Baixa</option>
+        <option value="MEDIUM">Média</option>
+        <option value="HIGH">Alta</option>
+      </select>
+
+      <input type="date" formControlName="dueDate">
+
+      <div class="actions">
+        <button type="button" (click)="showModal = false">Cancelar</button>
+        <button type="submit" [disabled]="taskForm.invalid">Salvar</button>
+      </div>
+    </form>
+    
+  </div>
+  
+</div> 
+
+<div class="board">
+
+  <div class="column">
+    <h3>A Fazer</h3>
+    <app-task
+      *ngFor="let task of filterByStatus('TODO')"
+      [task]="task">
+    </app-task>
+  </div>
+
+  <div class="column">
+    <h3>Fazendo</h3>
+    <app-task
+      *ngFor="let task of filterByStatus('DOING')"
+      [task]="task">
+    </app-task>
+  </div>
+
+  <div class="column">
+    <h3>Concluído</h3>
+    <app-task
+      *ngFor="let task of filterByStatus('DONE')"
+      [task]="task">
+    </app-task>
+  </div>
+
+</div>
