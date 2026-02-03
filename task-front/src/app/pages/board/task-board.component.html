@@ -1,15 +1,32 @@
 <div class="header">
   <img src="/logo.png" alt="Logo" class="logo">
-  <button class="btn-new" (click)="showModal = true">+ Nova Tarefa</button>
+  <button class="btn-new" (click)="openNewTask()">
+    + Nova Tarefa
+  </button>
+
 </div>
+
 
 <div class="modal" *ngIf="showModal">
   <div class="modal-content">
-    <h3>Nova Tarefa</h3>
+
+    <h3>
+      {{ editingTask ? 'Editar tarefa' : 'Nova tarefa' }}
+    </h3>
+
     <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
-      <input formControlName="title" placeholder="Título (Obrigatório)">
-      <textarea formControlName="description" placeholder="Descrição"></textarea>
-       
+
+      <input
+        type="text"
+        formControlName="title"
+        placeholder="Título (obrigatório)"
+      >
+
+      <textarea
+        formControlName="description"
+        placeholder="Descrição"
+      ></textarea>
+
       <select formControlName="priority">
         <option value="LOW">Baixa</option>
         <option value="MEDIUM">Média</option>
@@ -19,59 +36,73 @@
       <input type="date" formControlName="dueDate">
 
       <div class="actions">
-        <button type="button" (click)="showModal = false">Cancelar</button>
-        <button type="submit" [disabled]="taskForm.invalid">Salvar</button>
+        <button type="button" (click)="resetForm()">
+          Cancelar
+        </button>
+
+        <button type="submit" [disabled]="taskForm.invalid">
+          Salvar
+        </button>
       </div>
+
     </form>
   </div>
-</div> 
+</div>
 
 <div class="board" cdkDropListGroup>
 
   <div class="column1"
-
        cdkDropList
-       [cdkDropListData]="filterByStatus('TODO')"
+       [cdkDropListData]="todoTasks"
        (cdkDropListDropped)="drop($event, 'TODO')">
+
     <h3>A Fazer</h3>
 
-    <app-task
-      *ngFor="let task of filterByStatus('TODO')"
-      [task]="task"
-      cdkDrag
-      [cdkDragData]="task"> <div *cdkDragPlaceholder class="custom-placeholder"></div>
-    </app-task>
-    
+<app-task
+  *ngFor="let task of todoTasks"
+  [task]="task"
+  cdkDrag
+  [cdkDragData]="task"
+  (edit)="editTask($event)"
+  (remove)="deleteTask($event)">
+</app-task>
   </div>
-
+ 
   <div class="column2"
        cdkDropList
-       [cdkDropListData]="filterByStatus('DOING')"
+       [cdkDropListData]="doingTasks"
        (cdkDropListDropped)="drop($event, 'DOING')">
+
     <h3>Em Progresso</h3>
 
-    <app-task
-      *ngFor="let task of filterByStatus('DOING')"
-      [task]="task"
-      cdkDrag
-      [cdkDragData]="task">
-      <div *cdkDragPlaceholder class="custom-placeholder"></div>
-    </app-task>
+<app-task
+  *ngFor="let task of doingTasks"
+  [task]="task"
+  cdkDrag
+  [cdkDragData]="task"
+  (edit)="editTask($event)"
+  (remove)="deleteTask($event)">
+</app-task>
+
   </div>
 
   <div class="column3"
        cdkDropList
-       [cdkDropListData]="filterByStatus('DONE')"
+       [cdkDropListData]="doneTasks"
        (cdkDropListDropped)="drop($event, 'DONE')">
+
     <h3>Concluído</h3>
 
-    <app-task
-      *ngFor="let task of filterByStatus('DONE')"
-      [task]="task"
-      cdkDrag
-      [cdkDragData]="task">
-      <div *cdkDragPlaceholder class="custom-placeholder"></div>
-    </app-task>
+  <app-task
+  *ngFor="let task of doneTasks"
+  [task]="task"
+  cdkDrag
+  [cdkDragData]="task"
+  (edit)="editTask($event)"
+  (remove)="deleteTask($event)">
+</app-task>
+
+
   </div>
 
 </div>

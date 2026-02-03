@@ -1,11 +1,22 @@
 <div class="task-card">
   <h4>{{ task.title }}</h4>
-  <p>{{ task.description }}</p>
- <span class="badge" 
-      [style.background-color]="getPriorityColor(task.priority)">
-  
-  {{ labels[task.priority] }}
 
+  <p>{{ task.description }}</p>
+
+ <span
+  class="badge"
+  [style.backgroundColor]="getPriorityColor()">
+  {{ priorityLabel[task.priority] }}
 </span>
-  <p>Data de Vencimento: {{ task.dueDate | date }}</p>
+
+
+  <p>Vencimento: {{ task.dueDate | date }}</p>
+
+  <div class="actions">
+    <button class="edit" 
+    (click)="edit.emit(task)">Editar</button>
+
+    <button class="delete" 
+    (click)="remove.emit(task)">Excluir</button>
+  </div>
 </div>

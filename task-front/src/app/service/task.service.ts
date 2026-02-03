@@ -13,13 +13,22 @@ export class TaskService {
   constructor(private http: HttpClient) {}
 
   findAll(): Observable<Task[]> {
+    
     return this.http.get<Task[]>(this.apiUrl);
-
   }
+
   create(task: Task): Observable<Task> {
-  return this.http.post<Task>(this.apiUrl, task);
+    return this.http.post<Task>(this.apiUrl, task);
+  }
+
+  update(id: number, task: Task): Observable<Task> {
+    
+    return this.http.put<Task>(`${this.apiUrl}/${id}`, task);
+  }
+
+  delete(id: number): Observable<void> {
+  
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
 }
-update(id: number, task: Task): Observable<Task> {
-  return this.http.put<Task>(`${this.apiUrl}/${id}`, task);
-}
+
 }
