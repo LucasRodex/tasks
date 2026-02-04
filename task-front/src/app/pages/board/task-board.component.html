@@ -16,16 +16,22 @@
 
     <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
 
+      <label>Título da tarefa</label>
       <input
+      
         type="text"
         formControlName="title"
         placeholder="Título (obrigatório)"
+        maxlength="40"
       >
-
+      <label>Descrição da tarefa</label>
       <textarea
         formControlName="description"
-        placeholder="Descrição"
+        placeholder="Descrição (obrigatório)"
+        maxlength="200"
       ></textarea>
+
+      <label>Prioridade</label> 
 
       <select formControlName="priority">
         <option value="LOW">Baixa</option>
@@ -33,7 +39,17 @@
         <option value="HIGH">Alta</option>
       </select>
 
-      <input type="date" formControlName="dueDate">
+     <label>Data de Vencimento</label>
+<input 
+  type="date" 
+  formControlName="dueDate" 
+  [min]="todayDate"
+  onkeydown="return false"
+  onfocus="this.showPicker()"
+  
+  (input)="taskForm.updateValueAndValidity()"
+  style="cursor: pointer; caret-color: transparent;">
+   
 
       <div class="actions">
         <button type="button" (click)="resetForm()">

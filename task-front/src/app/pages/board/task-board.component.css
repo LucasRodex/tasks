@@ -47,7 +47,7 @@
   padding: 20px; 
   align-items: center; }
 
-.btn-new { background: #0052cc; 
+.btn-new { background: #1c7938; 
   color: white; 
   border: none; 
   padding: 10px 20px; 
@@ -75,9 +75,25 @@
   column; gap: 15px; 
 }
 
-.modal-content input, .modal-content select, .modal-content textarea { width: 100%; 
-  padding: 8px; 
-  margin: 5px 0; }
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.modal-content input, 
+.modal-content select, 
+.modal-content textarea { 
+  width: 100%; 
+  padding: 10px; 
+  margin: 5px 0 15px 0; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; }
+
+
 
 h3 {
   text-align: center; 

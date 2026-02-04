@@ -7,6 +7,7 @@ import { TaskService } from '../../service/task.service';
 import { Task } from '../../model/task.model';
 import { TaskComponent } from '../task/task.component';
 
+
 @Component({
   selector: 'app-task-board',
   standalone: true,
@@ -40,16 +41,24 @@ export class TaskBoardComponent implements OnInit {
     this.loadTasks();
   }
 
-  private createForm(): void {
-    this.taskForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      description: [''],
-      priority: ['MEDIUM'],
-      status: ['TODO'],
-      dueDate: ['', Validators.required]
-    });
-  }
+  
 
+ private createForm(): void {
+  this.taskForm = this.formBuilder.group({
+    title: ['', [Validators.required, Validators.maxLength(40)]],
+    description: ['', [Validators.required, Validators.maxLength(200)]], 
+    priority: ['MEDIUM'],
+    status: ['TODO'],
+    dueDate: ['', [Validators.required, this.futureDateValidator]]
+  });
+}
+  
+futureDateValidator(control: any) {
+  if (!control.value) return null;
+  const todayStr = new Date().toLocaleDateString('en-CA'); 
+  const selectedDate = control.value; 
+  return selectedDate >= todayStr ? null : { pastDate: true };
+}
   loadTasks(): void {
     this.taskService.findAll().subscribe(tasks => {
       this.todoTasks = tasks.filter(task => task.status === 'TODO');
@@ -70,12 +79,20 @@ export class TaskBoardComponent implements OnInit {
     this.showModal = true;
   }
 
-  editTask(task: Task): void {
-    this.editingTask = task;
-    this.showModal = true;
+editTask(task: Task): void {
+  this.editingTask = task;
+  this.showModal = true;
 
-    this.taskForm.patchValue(task);
-  }
+  
+  this.taskForm.patchValue({
+    title: task.title,
+    description: task.description,
+    priority: task.priority,
+    dueDate: task.dueDate,
+    status: task.status
+  });
+}
+
 
   saveTask(): void {
     if (this.taskForm.invalid) return;
@@ -135,4 +152,8 @@ export class TaskBoardComponent implements OnInit {
       status: 'TODO'
     });
   }
+
+
+todayDate: string = new Date().toLocaleDateString('en-CA');
+
 }
