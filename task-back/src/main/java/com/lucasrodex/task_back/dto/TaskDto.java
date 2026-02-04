@@ -1,7 +1,10 @@
 package com.lucasrodex.task_back.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lucasrodex.task_back.enums.TaskPriority;
 import com.lucasrodex.task_back.enums.TaskStatus;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TaskDto {
@@ -10,12 +13,20 @@ public class TaskDto {
     private String description;
     private TaskStatus status;
     private TaskPriority priority;
-    private LocalDateTime dueDate;
+
+    // CORREÇÃO AQUI: Mudamos para LocalDate e adicionamos a formatação no lugar certo
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate dueDate;
+
     private LocalDateTime createdAt;
 
+    // Construtor vazio (Necessário para o Jackson/JSON funcionar!)
+    public TaskDto() {
+    }
 
+    // Construtor com argumentos atualizado para LocalDate
     public TaskDto(Long id, String title, String description, TaskStatus status,
-                   TaskPriority priority, LocalDateTime dueDate, LocalDateTime createdAt) {
+                   TaskPriority priority, LocalDate dueDate, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -24,7 +35,6 @@ public class TaskDto {
         this.dueDate = dueDate;
         this.createdAt = createdAt;
     }
-
     public Long getId() {
         return id;
     }
@@ -65,11 +75,13 @@ public class TaskDto {
         this.priority = priority;
     }
 
-    public LocalDateTime getDueDate() {
+    // Atualizado para LocalDate
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    // Atualizado para LocalDate
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 

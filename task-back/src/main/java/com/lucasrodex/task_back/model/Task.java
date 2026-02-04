@@ -1,14 +1,13 @@
 package com.lucasrodex.task_back.model;
 
-import jakarta.persistence.*;
-import com.lucasrodex.task_back.enums.TaskStatus;
 import com.lucasrodex.task_back.enums.TaskPriority;
-import org.hibernate.annotations.CreationTimestamp;
-
+import com.lucasrodex.task_back.enums.TaskStatus;
+import jakarta.persistence.*; // Se usar Spring Boot 3+ (ou javax.persistence se for antigo)
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "task")
+@Table(name = "tasks")
 public class Task {
 
     @Id
@@ -22,20 +21,22 @@ public class Task {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TaskStatus status = TaskStatus.TODO;
+    private TaskStatus status;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private TaskPriority priority;
 
+    // A MUDANÇA CRUCIAL: De LocalDateTime para LocalDate
     @Column(name = "due_date")
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
-    @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
@@ -77,11 +78,11 @@ public class Task {
         this.priority = priority;
     }
 
-    public LocalDateTime getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -93,4 +94,3 @@ public class Task {
         this.createdAt = createdAt;
     }
 }
-
