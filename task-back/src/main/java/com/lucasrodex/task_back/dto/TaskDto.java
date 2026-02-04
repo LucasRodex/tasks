@@ -8,23 +8,24 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TaskDto {
+
     private Long id;
     private String title;
     private String description;
     private TaskStatus status;
     private TaskPriority priority;
 
-    // CORREÇÃO AQUI: Mudamos para LocalDate e adicionamos a formatação no lugar certo
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
 
     private LocalDateTime createdAt;
 
-    // Construtor vazio (Necessário para o Jackson/JSON funcionar!)
+
     public TaskDto() {
     }
 
-    // Construtor com argumentos atualizado para LocalDate
+
     public TaskDto(Long id, String title, String description, TaskStatus status,
                    TaskPriority priority, LocalDate dueDate, LocalDateTime createdAt) {
         this.id = id;
@@ -35,6 +36,7 @@ public class TaskDto {
         this.dueDate = dueDate;
         this.createdAt = createdAt;
     }
+
     public Long getId() {
         return id;
     }
@@ -43,20 +45,20 @@ public class TaskDto {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public TaskStatus getStatus() {
@@ -75,12 +77,10 @@ public class TaskDto {
         this.priority = priority;
     }
 
-    // Atualizado para LocalDate
     public LocalDate getDueDate() {
         return dueDate;
     }
 
-    // Atualizado para LocalDate
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }

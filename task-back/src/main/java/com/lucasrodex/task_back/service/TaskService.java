@@ -16,7 +16,6 @@ public class TaskService {
     @Autowired
     private TaskRepository repository;
 
-    // ADICIONADO: O método que o Controller chama para listar no Board
     public List<TaskDto> findAll() {
         return repository.findAll().stream()
                 .map(this::convertToDto) // Converte cada Entity para DTO
@@ -34,11 +33,8 @@ public class TaskService {
         task.setStatus(taskDto.getStatus());
         task.setPriority(taskDto.getPriority());
 
-        // Agora funciona pois ambos (DTO e Entity) são LocalDate
-        task.setDueDate(taskDto.getDueDate());
 
-        // createdAt geralmente é gerado automaticamente no banco ou na Entity (@PrePersist),
-        // mas se precisar setar manual: task.setCreatedAt(LocalDateTime.now());
+        task.setDueDate(taskDto.getDueDate());
 
         Task savedEntity = repository.save(task);
         return convertToDto(savedEntity);
@@ -61,8 +57,6 @@ public class TaskService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
-
-    // Método auxiliar para evitar repetição de código (Clean Code)
     private TaskDto convertToDto(Task entity) {
         return new TaskDto(
                 entity.getId(),

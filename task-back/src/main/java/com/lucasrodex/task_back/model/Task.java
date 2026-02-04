@@ -3,6 +3,11 @@ package com.lucasrodex.task_back.model;
 import com.lucasrodex.task_back.enums.TaskPriority;
 import com.lucasrodex.task_back.enums.TaskStatus;
 import jakarta.persistence.*; // Se usar Spring Boot 3+ (ou javax.persistence se for antigo)
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -14,20 +19,30 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank
+    @Size(max = 40)
+    @Column(length = 40, nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @NotBlank
+    @Size(max = 200)
+    @Column(length = 200, nullable = false)
     private String description;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TaskStatus status;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TaskPriority priority;
 
-    // A MUDANÇA CRUCIAL: De LocalDateTime para LocalDate
-    @Column(name = "due_date")
+
+    @NotNull
+    @FutureOrPresent
+    @Column(name = "due_date", nullable = false)
     private LocalDate dueDate;
 
     @Column(name = "created_at", updatable = false)

@@ -34,9 +34,12 @@ public class TaskController {
     public void delete(@PathVariable Long id) {
         taskService.delete(id);
     }
+
     @GetMapping
     public ResponseEntity<List<TaskDto>> listAll() {
         return ResponseEntity.ok(taskService.findAll());
     }
 }
+
+
 
